@@ -1,0 +1,142 @@
+﻿@page "/"
+@using MudBlazorDataGridTemplate.Components.Models
+
+<PageTitle>Home</PageTitle>
+
+<MudDataGrid Items="@Materials" Filterable="false" SortMode="@SortMode.Single" Groupable="true" QuickFilter="@quickFilter">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Materials</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.DisplayName" Title="DisplayName" />
+        <PropertyColumn Property="x => x.Description" />
+        <PropertyColumn Property="x => x.Batching" />
+        <PropertyColumn Property="x => x.DefaultUnitOfWeight" />
+        <PropertyColumn Property="x => x.ItemIdNumberFormat" Sortable="false" Groupable="false" />
+        <PropertyColumn Property="x => x.NextBatchId" Sortable="false" Groupable="false" />
+        <PropertyColumn Property="x => x.SampleOfMaterialId" Sortable="false" Groupable="false" />
+        <PropertyColumn Property="x => x.ItemIdExpectedInheritances" Sortable="false" Groupable="false" />
+        <PropertyColumn Property="x => x.CreatedOn" />
+        <PropertyColumn Property="x => x.ModifiedOn" />
+        <PropertyColumn Property="x => x.ModifiedBy" />
+        <PropertyColumn Property="x => x.IsActive" />
+        <TemplateColumn>
+            <CellTemplate>
+                <MudStack Row>
+                    <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary">Edit</MudButton>
+                    <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Secondary">Details</MudButton>
+                    <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Info">Delete</MudButton>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Material" />
+    </PagerContent>
+</MudDataGrid>
+
+@code{
+    private IEnumerable<Material> Materials = new List<Material>();
+    private string searchString;
+
+    protected override void OnInitialized()
+    {
+        Materials = LoadMaterials();
+    }
+
+    private Func<Material, bool> quickFilter => x =>
+    {
+        if(string.IsNullOrWhiteSpace(searchString)){
+            return true;
+        }
+
+        if(x.DisplayName.Contains(searchString, StringComparison.OrdinalIgnoreCase)){
+            return true;
+        }
+
+        if (x.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    private List<Material> LoadMaterials()
+        => new List<Material>
+        {
+            new Material{
+                DisplayName = "6330 Sample",
+                Description = "Fumace Feed Samples",
+                Batching = "Autoincrement",
+                DefaultUnitOfWeight = "na",
+                ItemIdNumberFormat = "F 0000",
+                NextBatchId = "F4244",
+                SampleOfMaterialId = new Guid(),
+                ItemIdExpectedInheritances = 0,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = "DS-PRIMA\\Jared Palomo",
+                IsActive = true
+            },
+            new Material{
+                DisplayName = "Acided Zinc Precip",
+                Description = "Zinc Precip Already Acided",
+                Batching = "List",
+                DefaultUnitOfWeight = "kg",
+                ItemIdNumberFormat = "0000",
+                NextBatchId = "",
+                SampleOfMaterialId = new Guid(),
+                ItemIdExpectedInheritances = 0,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = "DS-PRIMA\\Jared Palomo",
+                IsActive = true
+            },
+            new Material{
+                DisplayName = "Acided Zinc Precip",
+                Description = "Zinc Precip Already Acided",
+                Batching = "List",
+                DefaultUnitOfWeight = "kg",
+                ItemIdNumberFormat = "0000",
+                NextBatchId = "",
+                SampleOfMaterialId = new Guid(),
+                ItemIdExpectedInheritances = 0,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = "DS-PRIMA\\Jared Palomo",
+                IsActive = true
+            },
+            new Material{
+                DisplayName = "Anode in Electrolysis",
+                Description = "Dore anode in silver cells",
+                Batching = "Autoincrement",
+                DefaultUnitOfWeight = "kg",
+                ItemIdNumberFormat = "0000",
+                NextBatchId = "09091",
+                SampleOfMaterialId = new Guid(),
+                ItemIdExpectedInheritances = 0,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = "DS-PRIMA\\Jared Palomo",
+                IsActive = true
+            },
+            new Material{
+                DisplayName = "Bagged Flux Material",
+                Description = "Material from the Hopper placed in temporary bags",
+                Batching = "Inherited",
+                DefaultUnitOfWeight = "kg",
+                ItemIdNumberFormat = "F 0000",
+                NextBatchId = "",
+                SampleOfMaterialId = new Guid(),
+                ItemIdExpectedInheritances = 0,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = "DS-PRIMA\\Jared Palomo",
+                IsActive = true
+            },
+        };
+}
